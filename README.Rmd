@@ -91,51 +91,21 @@ times_two(4)
 
 
 ```{r, eval = F}
-devtools::create(".")
+devtools::create(".") # Bit 1. 1X
+### Bit 2a: dependencies to functions using '::' syntax to pkg functions 
+usethis::use_package("ggplot2") # Bit 2b: document dependencies
+readme2pkg::chunk_to_r(chunk_name = "times_two") # Bit 3: send code chunk with function to R folder
+devtools::check(pkg = ".")  # Bit 4: check that package is minimally viable
+devtools::install(pkg = ".", upgrade = "never") # Bit 5: install package locally
+usethis::use_lifecycle_badge("experimental") # Bit 6: add lifecycle badge
+# Bit 7 (below): Write traditional readme
+# Bit 8: Compile readme
+# Bit 9: Push to githup
+# Bit 10: listen and iterate
 ```
 
 
-### Bit B. Managing [dependencies](https://r-pkgs.org/dependencies-in-practice.html) if they exist 🚧 ✅
-
-Dependencies -- use of non-base R functions within your function -- must be declared in your package.  
-
-This means ...
-
-1. you'll use the `::` notation, e.g. `package::function()` in your functions when you use another package's functions.  
-2. you'll document package dependencies to your DESCRIPTION
-file -- this can be done automatically with `usethis::use_package`, the example is the case where ggplot2 is a dependency:
-
-```{r, eval = F}
-usethis::use_package("ggplot2")
-```
-
-
-### Bit C. Moved functions [R code folder](https://r-pkgs.org/code.html)? 🚧 ✅
-
-Use new {readme2pkg} function to do this from readme...
-
-```{r, eval = F}
-readme2pkg::chunk_to_r(chunk_name = "times_two")
-```
-
-
-
-### Bit D. Run [`devtools::check()`](https://r-pkgs.org/whole-game.html#check) and address errors. 🚧 ✅
-
-```{r, eval = F}
-devtools::check(pkg = ".")
-```
-
-devtools check will document the functions for you. 
-
-### Bit E. [Install](https://r-pkgs.org/whole-game.html#install) and restart your brand new package!! 🚧 ✅
-
-```{r, eval = F}
-devtools::install(pkg = ".", upgrade = "never")
-```
-
-
-### Bit F. Write traditional README that uses built package (also serves as a test of build). 🚧 ✅ 
+### Bit 7. Write traditional README that uses built package (also serves as a test of build). 🚧 ✅ 
 
 The goal of the {xxxx} package is to ...
 
@@ -152,44 +122,13 @@ library(mypackage)  ##<< change to your package name here
 mypackage:::times_two(10)
 ```
 
-
-### Bit G. Add [lifecycle badge](https://r-pkgs.org/lifecycle.html) (experimental) 🚧 ✅
-
-
-```{r, eval = F}
-usethis::use_lifecycle_badge("experimental")
-```
-
-### Bit H. Compile README.Rmd 🚧 ✅
-
-### Bit I. Push to github. 🚧 ✅
-
-
-RStudio: Console/Terminal/RMarkdown/Jobs:
-
-Terminal -> git add . -> git commit -m "first commit" -> git push
-
-## Phase 2: Listen & iterate 🚧 ✅
-
-Try to get feedback from experts on API, implementation, default decisions, names.  Is there already work that solves this problem? 
-
-> "Hey Jordan, I know you are an expert in multiplication methods.  I was wondering if you'd have a look at the motivation and functionality in my development {times.two} package found at github.com/myusername/times.two"
-
-> "Hey Ella, I know you've done great worked on {times.three}.  I think my new project does something similar in terms API.  I was wondering if you'd have a look at the implementation. Code can be found in github.com/myusername/times.two "
-
 ## Phase 3: Settling and testing 🚧 ✅ 
-
-In this phase you should start settling on function and argument names, decide which ones will be exported, and make those functions more robust and usable with examples, tests, messages and warnings.
 
 ### Bit A. Added a description and author information in the [DESCRIPTION file](https://r-pkgs.org/description.html) 🚧 ✅
 
 ### Bit B. Added [roxygen skeleton](https://r-pkgs.org/man.html)? 🚧 ✅
 
-Use a roxygen skeleton for auto documentation and making sure proposed functions are *exported*. (in RStudio 'Code -> insert Roxygen Skeleton) Generally, early on, I don't do much (anything) in terms of filling in the skeleton for documentation, because things may change.
-
-
 ### Bit C. Chosen a [license](https://r-pkgs.org/license.html)? 🚧 ✅
-
 
 ```{r, eval = F}
 usethis::use_mit_license()
