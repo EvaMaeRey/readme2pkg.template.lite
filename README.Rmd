@@ -10,7 +10,8 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = T
+  eval = T,
+  error = T
 )
 ```
 

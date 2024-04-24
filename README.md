@@ -1,6 +1,8 @@
 
   - [*To the reader*](#to-the-reader)
-  - [Part 0. Proposal](#part-0-proposal)
+  - [Part 00. Proposal](#part-00-proposal)
+  - [Part 0. Lay out package
+    infrastructure](#part-0-lay-out-package-infrastructure)
   - [Part I. Work out functionality 🚧
     ✅](#part-i-work-out-functionality--)
       - [Try it out](#try-it-out)
@@ -8,7 +10,9 @@
     ✅](#part-ii-packaging-and-documentation--)
       - [Phase 1. Minimal working
         package](#phase-1-minimal-working-package)
-      - [Phase 2: Listen & iterate 🚧 ✅](#phase-2-listen--iterate--)
+  - [Bit 8: Compile readme](#bit-8-compile-readme)
+  - [Bit 9: Push to github](#bit-9-push-to-github)
+  - [Bit 10: listen and iterate](#bit-10-listen-and-iterate)
       - [Phase 3: Settling and testing 🚧
         ✅](#phase-3-settling-and-testing--)
       - [Phase 4. Promote to wider audience… 🚧
@@ -23,24 +27,24 @@
 
 # *To the reader*
 
-Welcome to the R package building helper *readme2pkg.template*\!
+Welcome to the R package building helper *readme2pkg.template.lite*\!
 
 Below, is a readme that provides steps for building a package. This
 readme acts as a worksheet, checklist, and control document as functions
 used in package building are included within and can be used in
 advancing development.
 
-We’ll use the `{readme2pkg}` helper package to send code chunks to
+We’ll use the `{knitrExtra}` helper package to send code chunks to
 different directories in the package.
 
-To install `{readme2pkg}`:
+To install `{knitrExtra}`:
 
 ``` 
 
-remotes::install_github("EvaMaeRey/readme2pkg")
+remotes::install_github("EvaMaeRey/knitrExtra")
 ```
 
-# Part 0. Proposal
+# Part 00. Proposal
 
 Proposing the {xxxx} package\! 🦄
 <!-- (typical package introduction write up; but actually aspirational) -->
@@ -61,11 +65,19 @@ the task is a snap 🫰:
 
 Proposed API:
 
+<!-- The following is fenced off to quote the code, but won't execute.  -->
+
 ``` 
 
 library(xxxxx)
 
 xxxxx::times_two(x = 4)
+```
+
+# Part 0. Lay out package infrastructure
+
+``` r
+devtools::create(".")
 ```
 
 # Part I. Work out functionality 🚧 ✅
@@ -91,54 +103,39 @@ times_two(4)
 
 ## Phase 1. Minimal working package
 
-### Bit A. Created package archetecture, running `devtools::create(".")` in interactive session. 🚧 ✅
+To build a minimal working package, 1) we’ll need to document
+dependencies 2) send functions to .R files in the R folder, 3) do a
+package check (this will A. Document our functions and B. this will help
+us identify problems - for example if we’ve failed to declare a
+dependency) and 4) install the package locally.
+
+Then we’ll write up a quick advertisement for what our package is able
+to do in the ‘traditional readme’ section. This gives us a chance to
+test out the package.
 
 ``` r
-devtools::create(".")
+### Bit 2a: in the function(s) you wrote above make sure dependencies to functions using '::' syntax to pkg functions 
+usethis::use_package("ggplot2") # Bit 2b: document dependencies, w hypothetical ggplot2
 ```
-
-### Bit B. Managing [dependencies](https://r-pkgs.org/dependencies-in-practice.html) if they exist 🚧 ✅
-
-Dependencies – use of non-base R functions within your function – must
-be declared in your package.
-
-This means …
-
-1.  you’ll use the `::` notation, e.g. `package::function()` in your
-    functions when you use another package’s functions.  
-2.  you’ll document package dependencies to your DESCRIPTION file – this
-    can be done automatically with `usethis::use_package`, the example
-    is the case where ggplot2 is a dependency:
-
-<!-- end list -->
 
 ``` r
-usethis::use_package("ggplot2")
+# Bit 3: send the code chunk with function to R folder
+knitrExtra:::chunk_to_r(chunk_name = "times_two") 
+#> It seems you are currently knitting a Rmd/Qmd file. The parsing of the file will be done in a new R session.
+#> Warning in file(con, "w"): cannot open file 'R//times_two.R': No such file or
+#> directory
+#> Error in file(con, "w"): cannot open the connection
 ```
-
-### Bit C. Moved functions [R code folder](https://r-pkgs.org/code.html)? 🚧 ✅
-
-Use new {readme2pkg} function to do this from readme…
 
 ``` r
-readme2pkg::chunk_to_r(chunk_name = "times_two")
+# Bit 4: document functions and check that package is minimally viable
+devtools::check(pkg = ".")  
+
+# Bit 5: install package locally
+devtools::install(pkg = ".", upgrade = "never") 
 ```
 
-### Bit D. Run [`devtools::check()`](https://r-pkgs.org/whole-game.html#check) and address errors. 🚧 ✅
-
-``` r
-devtools::check(pkg = ".")
-```
-
-devtools check will document the functions for you.
-
-### Bit E. [Install](https://r-pkgs.org/whole-game.html#install) and restart your brand new package\!\! 🚧 ✅
-
-``` r
-devtools::install(pkg = ".", upgrade = "never")
-```
-
-### Bit F. Write traditional README that uses built package (also serves as a test of build). 🚧 ✅
+### Bit 7. Write traditional README that uses built package (also serves as a test of build). 🚧 ✅
 
 The goal of the {xxxx} package is to …
 
@@ -155,49 +152,19 @@ library(mypackage)  ##<< change to your package name here
 mypackage:::times_two(10)
 ```
 
-### Bit G. Add [lifecycle badge](https://r-pkgs.org/lifecycle.html) (experimental) 🚧 ✅
+# Bit 8: Compile readme
 
-``` r
-usethis::use_lifecycle_badge("experimental")
-```
+# Bit 9: Push to github
 
-### Bit H. Compile README.Rmd 🚧 ✅
-
-### Bit I. Push to github. 🚧 ✅
-
-RStudio: Console/Terminal/RMarkdown/Jobs:
-
-Terminal -\> git add . -\> git commit -m “first commit” -\> git push
-
-## Phase 2: Listen & iterate 🚧 ✅
-
-Try to get feedback from experts on API, implementation, default
-decisions, names. Is there already work that solves this problem?
-
-> “Hey Jordan, I know you are an expert in multiplication methods. I was
-> wondering if you’d have a look at the motivation and functionality in
-> my development {times.two} package found at
-> github.com/myusername/times.two”
-
-> “Hey Ella, I know you’ve done great worked on {times.three}. I think
-> my new project does something similar in terms API. I was wondering if
-> you’d have a look at the implementation. Code can be found in
-> github.com/myusername/times.two”
+# Bit 10: listen and iterate
 
 ## Phase 3: Settling and testing 🚧 ✅
 
-In this phase you should start settling on function and argument names,
-decide which ones will be exported, and make those functions more robust
-and usable with examples, tests, messages and warnings.
-
 ### Bit A. Added a description and author information in the [DESCRIPTION file](https://r-pkgs.org/description.html) 🚧 ✅
 
-### Bit B. Added [roxygen skeleton](https://r-pkgs.org/man.html)? 🚧 ✅
+### Bit B. Added [roxygen skeleton](https://r-pkgs.org/man.html) for exported functions. 🚧 ✅
 
-Use a roxygen skeleton for auto documentation and making sure proposed
-functions are *exported*. (in RStudio ’Code -\> insert Roxygen Skeleton)
-Generally, early on, I don’t do much (anything) in terms of filling in
-the skeleton for documentation, because things may change.
+### Bit D. Settle on [examples](https://r-pkgs.org/man.html#sec-man-examples). Put them in the roxygen skeleton and readme. 🚧 ✅
 
 ### Bit C. Chosen a [license](https://r-pkgs.org/license.html)? 🚧 ✅
 
@@ -205,7 +172,11 @@ the skeleton for documentation, because things may change.
 usethis::use_mit_license()
 ```
 
-### Bit D. Settle on [examples](https://r-pkgs.org/man.html#sec-man-examples). Put them in the roxygen skeleton and readme. 🚧 ✅
+### Bit D. Use life-cycle badge
+
+``` r
+usethis::use_lifecycle_badge("experimental") 
+```
 
 ### Bit E. Written formal [tests](https://r-pkgs.org/testing-basics.html) of functions and save to test that folders 🚧 ✅
 
@@ -222,7 +193,7 @@ test_that("calc times 2 works", {
 ```
 
 ``` r
-readme2pkg::chunk_to_tests_testthat("test_calc_times_two_works")
+knitrExtra::chunk_to_tests_testthat("test_calc_times_two_works")
 ```
 
 ### Bit F. Check again. Addressed notes, warnings and errors. 🚧 ✅
@@ -259,8 +230,8 @@ all[11:17]
 #> [3] "[1] stats     graphics  grDevices utils     datasets  methods   base     "
 #> [4] ""                                                                         
 #> [5] "loaded via a namespace (and not attached):"                               
-#> [6] " [1] compiler_4.2.2  fastmap_1.1.1   cli_3.6.1       tools_4.2.2    "     
-#> [7] " [5] htmltools_0.5.4 rstudioapi_0.14 yaml_2.3.7      rmarkdown_2.20 "
+#> [6] " [1] lightparser_0.0.1     ps_1.7.2              fansi_1.0.5          "   
+#> [7] " [4] utf8_1.2.3            digest_0.6.31         R6_2.5.1             "
 ```
 
 ## `devtools::check()` report
