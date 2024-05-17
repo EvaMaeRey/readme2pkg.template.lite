@@ -31,7 +31,11 @@ remotes::install_github("EvaMaeRey/knitrExtra")
 
 ```
 
+
+
 # Part 00. Proposal
+
+*Note: This README walks through package rational and contains the code that defines proposed package functions and in addition to first-cut testing. [TLDR - Jump to traditional readme content](#traditional-readme)*
 
 Proposing the {xxxx} package! 🦄 
 <!-- (typical package introduction write up; but actually aspirational) -->
@@ -69,15 +73,15 @@ xxxxx::times_two(x = 4)
 devtools::create(".")
 ```
 
-# Part I. Work out functionality  🚧 ✅ 
+# Part I. Work on functionality  🚧 ✅ 
 
 Here is a function that will do some work...
 
 
-```{r times_two}
-times_two <- function(x){
+```{r geom_green_histogram}
+geom_green_histogram <- function(...){
   
-  x*2
+  ggplot2::geom_histogram(fill = "green", ...)
   
 }
 ```
@@ -86,8 +90,13 @@ times_two <- function(x){
 ## Try it out
 
 ```{r}
-times_two(4)
+library(ggplot2)
+
+ggplot(data = cars) + 
+  aes(speed) + 
+  geom_green_histogram()
 ```
+
 
 
 # Part II. Packaging and documentation  🚧 ✅ 
@@ -98,18 +107,21 @@ To build a minimal working package, 1) we'll need to document dependencies 2) se
 
 Then we'll write up a quick advertisement for what our package is able to do in the 'traditional readme' section.  This gives us a chance to test out the package.
 
-```{r, eval = F}
+```{r}
 ### Bit 2a: in the function(s) you wrote above make sure dependencies to functions using '::' syntax to pkg functions 
 usethis::use_package("ggplot2") # Bit 2b: document dependencies, w hypothetical ggplot2
 ```
 
 ```{r}
 # Bit 3: send the code chunk with function to R folder
-knitrExtra:::chunk_to_r(chunk_name = "times_two") 
+knitrExtra:::chunk_to_r(chunk_name = "geom_green_histogram") 
 ```
 
 
-```{r, eval = F}
+
+
+
+```{r, results = "hide"}
 # Bit 4: document functions and check that package is minimally viable
 devtools::check(pkg = ".")  
 
@@ -118,7 +130,13 @@ devtools::install(pkg = ".", upgrade = "never")
 ```
 
 
-### Bit 7. Write traditional README that uses built package (also serves as a test of build). 🚧 ✅ 
+
+
+# Traditional README
+
+### Bit 7. 
+
+Write traditional README that uses built package (also serves as a test of build). 🚧 ✅ 
 
 The goal of the {xxxx} package is to ...
 
@@ -135,9 +153,17 @@ library(mypackage)  ##<< change to your package name here
 mypackage:::times_two(10)
 ```
 
+
+```{r files-report-and-stop-knit, eval = T}
+# for quick knit (exiting early) change eval to TRUE
+fs::dir_tree(recurse = T)
+knitr::knit_exit()
+```
+
+
 # Bit 8: Compile readme
 
-# Bit 9: Push to github
+# Bit 9: Push to github (if your package is connected)
 
 # Bit 10: listen and iterate
 
