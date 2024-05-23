@@ -149,8 +149,8 @@ remotes::install_github("GithubCoolUser/mypacakge")
 Once functions are exported you can remove go to two colons, and when things are are really finalized, then go without colons (and rearrange your readme...)
 
 ```{r, eval = F}
-library(mypackage)  ##<< change to your package name here
-mypackage:::times_two(10)
+library(greenhistogram)  ##<< change to your package name here
+greenhistogram:::times_two(10)
 ```
 
 
