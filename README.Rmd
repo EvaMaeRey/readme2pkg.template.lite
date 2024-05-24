@@ -67,9 +67,16 @@ xxxxx::times_two(x = 4)
 
 ```
 
+
+```{r exit0, eval = F}
+# for quick knit (exiting early) change eval to TRUE
+# fs::dir_tree(recurse = T)
+knitr::knit_exit()
+```
+
 # Part 0. Lay out package infrastructure
 
-```{r, eval = F}
+```{r interactive1, eval = F}
 devtools::create(".")
 ```
 
@@ -81,7 +88,7 @@ Here is a function that will do some work...
 ```{r geom_green_histogram}
 geom_green_histogram <- function(...){
   
-  ggplot2::geom_histogram(fill = "green", ...)
+  geom_histogram(fill = "green", ...)
   
 }
 ```
@@ -114,6 +121,7 @@ usethis::use_package("ggplot2") # Bit 2b: document dependencies, w hypothetical 
 
 ```{r}
 # Bit 3: send the code chunk with function to R folder
+# knitrExtra::chunk_names_get()
 knitrExtra:::chunk_to_r(chunk_name = "geom_green_histogram") 
 ```
 
@@ -121,15 +129,13 @@ knitrExtra:::chunk_to_r(chunk_name = "geom_green_histogram")
 
 
 
-```{r, results = "hide"}
+```{r interactive2, results = "hide", eval = F}
 # Bit 4: document functions and check that package is minimally viable
 devtools::check(pkg = ".")  
 
 # Bit 5: install package locally
 devtools::install(pkg = ".", upgrade = "never") 
 ```
-
-
 
 
 # Traditional README
@@ -154,9 +160,9 @@ greenhistogram:::times_two(10)
 ```
 
 
-```{r files-report-and-stop-knit, eval = T}
+```{r exit1, eval = T}
 # for quick knit (exiting early) change eval to TRUE
-fs::dir_tree(recurse = T)
+# fs::dir_tree(recurse = T)
 knitr::knit_exit()
 ```
 
@@ -211,7 +217,11 @@ knitrExtra::chunk_to_tests_testthat("test_calc_times_two_works")
 ```
 
 
-
+```{r exit2, eval = T}
+# for quick knit (exiting early) change eval to TRUE
+# fs::dir_tree(recurse = T)
+knitr::knit_exit()
+```
 
 ### Bit F. Check again. Addressed notes, warnings and errors. 🚧 ✅
 
@@ -235,6 +245,12 @@ devtools::check(pkg = ".")
 
 ```{r, eval = F}
 readLines("DESCRIPTION")
+```
+
+```{r exit3, eval = T}
+# for quick knit (exiting early) change eval to TRUE
+# fs::dir_tree(recurse = T)
+knitr::knit_exit()
 ```
 
 ## Environment  🚧 ✅
