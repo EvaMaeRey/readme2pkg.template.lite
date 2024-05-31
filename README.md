@@ -41,19 +41,23 @@ content](#traditional-readme)*
 Proposing the {xxxx} package\! 🦄
 <!-- (typical package introduction write up; but actually aspirational) -->
 
-The goal of {xxxx} is to make … easier.
+The goal of {greenhistogram} is to make … easier.
 
 Without the package, we live in the effort-ful world that follows 🏋:
 
 ``` r
-x <- 4
+library(ggplot2)
 
-2*x
-#> [1] 8
+ggplot(data = cars) + 
+  aes(speed) + 
+  geom_histogram(fill = "green")  
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-With the {xxxx} package, we’ll live in a different world (🦄 🦄 🦄) where
-the task is a snap 🫰:
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+With the {greenhistogram} package, we’ll live in a different world (🦄 🦄
+🦄) where the task is a snap 🫰:
 
 Proposed API:
 
@@ -61,9 +65,12 @@ Proposed API:
 
 ``` 
 
-library(xxxxx)
+library(greenhistogram)
 
-xxxxx::times_two(x = 4)
+ggplot(data = cars) + 
+  aes(speed) + 
+  geom_green_histogram()   # new function!
+  
 ```
 
 ``` r
@@ -161,8 +168,10 @@ things are are really finalized, then go without colons (and rearrange
 your readme…)
 
 ``` r
+rm(list = ls())
 library(greenhistogram)  ##<< change to your package name here
-greenhistogram:::times_two(10)
+
+# some demonstration code here, accessing function w ::: syntax
 ```
 
 ``` r
